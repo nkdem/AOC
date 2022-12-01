@@ -17,8 +17,8 @@ merge :: [Int] -> [Int] -> [Int]
 merge [] [] = []
 merge x [] = x
 merge [] y = y
-merge (x:xs) (y:ys) | x < y = x : merge xs (y:ys)
-                    | otherwise = y : merge (x:xs) ys
+merge (x:xs) (y:ys) | x < y = y : merge ys (x:xs)            
+                    | otherwise = x : merge (y:ys) xs
 
 mergeSort :: [Int] -> [Int]
 mergeSort [] = []
@@ -27,10 +27,9 @@ mergeSort xs = merge (mergeSort $ take mid xs ) (mergeSort $ drop mid xs)
         where mid = length xs `div` 2
 
 solve2 :: [[Int]] -> Int
-solve2 = sum . take 3 . reverse . mergeSort . map sum
+solve2 = sum . take 3 . mergeSort . map sum
 
 main :: IO ()
 main = do
     readInput >>= print . solve1
     readInput >>= print . solve2
-
