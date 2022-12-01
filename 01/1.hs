@@ -3,8 +3,8 @@ import Data.Functor
 
 split :: Read b => [String] -> [[b]]
 split s = case break (== "") s of
-        (a,_:b) -> fmap read a : split b
-        (a, _)  -> [fmap read a]
+        (a,_:b) -> (read <$> a) : split b 
+        (a, _)  -> [read <$> a]
 
 
 readInput :: IO [[Int]]
@@ -27,10 +27,10 @@ mergeSort xs = merge (mergeSort $ take mid xs ) (mergeSort $ drop mid xs)
         where mid = length xs `div` 2
 
 solve2 :: [[Int]] -> Int
-solve2 = sum . take 3 . reverse . mergeSort . map sum 
+solve2 = sum . take 3 . reverse . mergeSort . map sum
 
 main :: IO ()
 main = do
-    readInput >>= print . solve1 
-    readInput >>= print . solve2 
+    readInput >>= print . solve1
+    readInput >>= print . solve2
 
