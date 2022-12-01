@@ -8,7 +8,7 @@ split s = case break (== "") s of
 
 
 readInput :: IO [[Int]]
-readInput = readFile "./inputs/1a" <&> lines <&> split
+readInput = readFile "./inputs/1" <&> lines <&> split
 
 solve1 :: [[Int]] -> Int
 solve1 = maximum . map sum
@@ -27,7 +27,7 @@ mergeSort xs = merge (mergeSort $ take mid xs ) (mergeSort $ drop mid xs)
         where mid = length xs `div` 2
 
 solve2 :: [[Int]] -> Int
-solve2 = sum . take 3 . reverse .mergeSort . map sum 
+solve2 = sum . take 3 . reverse . mergeSort . map sum 
 
 main :: IO ()
 main = do
