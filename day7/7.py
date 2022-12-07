@@ -4,8 +4,6 @@ class File:
     def __init__(self, file_name, size) -> None:
         self.file_name = file_name
         self.size = size
-    def __repr__(self) -> str:
-        return f'{self.file_name} ({self.size})'
 
 class Directory:
     def __init__(self, directory_name) -> None:
@@ -27,6 +25,7 @@ class Directory:
         for file in self.files:
             size += file.size
         return size
+
     def task1(self, val):
         dirs = 0
         for d in self.directories.values():
@@ -41,8 +40,7 @@ class Directory:
             if (m :=d.task2(unused)) + unused >= REQUIRED:
                 minim = min(minim, m)
         return minim
-    def __repr__(self) -> str:
-        return f'{self.directory_name}'
+
 def main():
     root = currDir = Directory('/')
     currDir = root
