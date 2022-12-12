@@ -40,6 +40,14 @@ def solve1(data, start,end ):
         visited.add(pos)
         for n in get_neighbours(data, pos):
             q.put((cost + 1, n))
-    return -1
+    return float('inf')
+def solve2(data, start,end ):
+    flatten = lambda l: [item for sublist in l for item in sublist]
+    candidates = flatten([[(row,col) for col,val in enumerate(x) if val == 'a'] for row,x in enumerate(data)])
+    minim = float('inf')
+    for candidate in candidates:
+        minim = min(minim, solve1(data,candidate,end))
+    return minim
 
 print(solve1(*read_input()))
+print(solve2(*read_input()))
