@@ -46,7 +46,15 @@ solve1 xs r' g' b' = [x | (Game x r) <- xs, all (<= r') (reds r), all (<= g') (g
           reds = map fst3
           greens = map snd3
 
+-- solve2 :: [Game (Int, Int, Int)] -> [[Int]]
+solve2 xs = sum [(maximum $ blues r) * (maximum $ reds r) * (maximum $ greens r) | (Game x r) <- xs] 
+    where blues = map thrd3
+          reds = map fst3
+          greens = map snd3
+
+
 main :: IO ()
 main = do
         input <- readInput "./inputs/input"
         print $ sum $ solve1 (parse input) 12 13 14
+        print $ solve2 (parse input)
