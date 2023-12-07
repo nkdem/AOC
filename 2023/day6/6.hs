@@ -8,11 +8,11 @@ parse1 input = do
     (x:xs) <- map (map (\y -> read y :: Int) . tail . words) . lines <$> readFile input
     return $ zip x (head xs)
 
-parse2 :: FilePath -> IO RaceDetails 
-parse2 input = do 
+parse2 :: FilePath -> IO RaceDetails
+parse2 input = do
     (x:xs) <- map ((\x -> read x:: Int) . concat . tail . words) . lines <$> readFile input
     return (x, head xs)
-    
+
 
 calcDistance :: Speed -> Time -> Distance
 calcDistance v t = v * t
@@ -22,7 +22,4 @@ solve races = product $ map (length . \(t, d) -> filter (> d) [calcDistance x (t
 
 main :: IO ()
 main = do
-    races1 <- parse1 "inputs/input"
-    races2 <- parse2 "inputs/input"
-    print $ solve races1
-    print $ solve [races2]
+    parse1 "inputs/input" >>= (print . solve) >> parse2 "inputs/input" >>= (\x -> print $ solve [x])    
