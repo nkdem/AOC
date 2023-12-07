@@ -77,9 +77,12 @@ toFile name ((x,y):xs) = do
     appendFile name (show x ++ " " ++ show y ++ "\n")
     toFile name xs
 
+solve :: [(HandType [Int], Int)] -> Int
+solve = sum . zipWith (\x y -> snd y * x) [1..] . concat . groupBy (\x y -> toConstr (fst x) == toConstr (fst y) ) . sort
+
 main :: IO ()
 main = do
     contents <- readFile "inputs/input"
-    let solve1 = sum $ zipWith (\x y -> snd y * x) [1..] $ concat . groupBy (\x y -> toConstr (fst x) == toConstr (fst y) ) . sort $ parse (getHandType False) (map words $ lines contents)
-    let solve2 = sum $ zipWith (\x y -> snd y * x) [1..] $ concat . groupBy (\x y -> toConstr (fst x) == toConstr (fst y) ) . sort . parse getHandTypeWithJokers $ map words $ lines contents
+    let solve1 = solve $ parse (getHandType False) (map words $ lines contents)
+    let solve2 = solve $ parse getHandTypeWithJokers (map words $ lines contents)
     print solve1 >> print solve2
