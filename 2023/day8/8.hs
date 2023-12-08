@@ -10,12 +10,6 @@ type Hashmap = Map Start (LeftDestination, RightDestination)
 type Instructions = String
 type Counter = Int
 
-removeChar :: Char -> String  -> String
-removeChar _ "" = ""
-removeChar x (y:ys)
-    | x == y = removeChar x ys
-    | otherwise = y : removeChar x ys
-
 removeChars :: [Char] -> String -> String
 removeChars _ "" = ""
 removeChars xs (y:ys)
