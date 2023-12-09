@@ -11,7 +11,7 @@ transform' xs
   where
     new = init $ transform xs
 
--- extrapolate :: [[[Int]]] -> Int
+extrapolate :: ([Int] -> Int) -> ([Int] -> Int) -> [[[Int]]] -> Int
 extrapolate f g xs = sum [g $ map f history | history <- xs]
 
 main :: IO ()
