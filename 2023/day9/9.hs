@@ -14,7 +14,7 @@ transform' xs
 extrapolate :: [[[Int]]] -> Int
 extrapolate xs = sum [sum $ map last history | (history, i) <- zip xs [0 ..]]
 
-extrapolate2 xs = sum [foldl (\x y -> y - x) 0 $ reverse $ map head history | (history, i) <- zip xs [0 ..]]
+extrapolate2 xs = sum [foldl (flip (-)) 0 $ reverse $ map head history | (history, i) <- zip xs [0 ..]]
 
 main :: IO ()
 main = do
@@ -22,6 +22,4 @@ main = do
     let transformedUnclean = map transform' xs
     let transformed = map (\i -> xs !! i : transformedUnclean !! i) [0 .. length xs - 1]
     print $ extrapolate transformed -- part a
-    print $ extrapolate2 $ transformed
-
--- print xs
+    print $ extrapolate2 $ transformed -- part b
