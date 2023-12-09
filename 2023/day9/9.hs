@@ -11,15 +11,13 @@ transform' xs
   where
     new = init $ transform xs
 
-extrapolate :: [[[Int]]] -> Int
-extrapolate xs = sum [sum $ map last history | history <- xs]
-
-extrapolate2 xs = sum [foldl (flip (-)) 0 $ reverse $ map head history | history <- xs]
+-- extrapolate :: [[[Int]]] -> Int
+extrapolate f g xs = sum [g $ map f history | history <- xs]
 
 main :: IO ()
 main = do
     xs <- map (map (\x -> read (x) :: Int) . words) . lines <$> readFile "inputs/input"
     let transformedUnclean = map transform' xs
     let transformed = map (\i -> xs !! i : transformedUnclean !! i) [0 .. length xs - 1]
-    print $ extrapolate transformed -- part a
-    print $ extrapolate2 $ transformed -- part b
+    print $ extrapolate last sum transformed -- part a
+    print $ extrapolate head (foldl (flip (-)) 0 . reverse) transformed -- part b
