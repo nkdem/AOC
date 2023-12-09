@@ -12,9 +12,9 @@ transform' xs
     new = init $ transform xs
 
 extrapolate :: [[[Int]]] -> Int
-extrapolate xs = sum [sum $ map last history | (history, i) <- zip xs [0 ..]]
+extrapolate xs = sum [sum $ map last history | history <- xs]
 
-extrapolate2 xs = sum [foldl (flip (-)) 0 $ reverse $ map head history | (history, i) <- zip xs [0 ..]]
+extrapolate2 xs = sum [foldl (flip (-)) 0 $ reverse $ map head history | history <- xs]
 
 main :: IO ()
 main = do
