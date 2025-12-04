@@ -78,3 +78,9 @@ func FindAllInGrid(grid [][]rune, target rune) []Point {
 	}
 	return points
 }
+
+func PrintGrid(grid [][]rune) {
+	for _, row := range grid {
+		println(string(row))
+	}
+}

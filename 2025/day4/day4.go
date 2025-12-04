@@ -47,7 +47,60 @@ func part1(lines []string) int {
 }
 
 func part2(lines []string) int {
-	return 0
+	total := 0
+	grid := utils.ParseGrid(lines)
+	rowsLength := len(grid)
+	colsLength := len(grid[0])
+	// fmt.Println("Initial State:")
+	// utils.PrintGrid(grid)
+	// fmt.Println()
+	for {
+		changes := []utils.Point{}
+		for i, rows := range grid {
+			for j, _ := range rows {
+				if grid[i][j] != ToiletRoll {
+					continue
+				}
+				point := utils.Point{
+					Row: i,
+					Col: j,
+				}
+				neighbours := point.Neighbors8(rowsLength, colsLength)
+
+				numberOfRolls := 0
+				for _, p := range neighbours {
+					if grid[p.Row][p.Col] == ToiletRoll {
+						numberOfRolls++
+					}
+
+					if numberOfRolls > AccessableRoll {
+						break
+					}
+				}
+
+				if numberOfRolls < AccessableRoll {
+					// fmt.Printf("Point at (%d,%d) can be accessed \n", i, j)
+					changes = append(changes, utils.Point{Row: i, Col: j})
+				}
+
+			}
+		}
+		if len(changes) == 0 {
+			// stable
+			break
+		}
+		total += len(changes)
+
+		// fmt.Printf("Remove %d rolls of paper:\n", len(changes))
+
+		// update grid
+		for _, p := range changes {
+			grid[p.Row][p.Col] = '.'
+		}
+		// utils.PrintGrid(grid)
+		// fmt.Println()
+	}
+	return total
 }
 
 func main() {
