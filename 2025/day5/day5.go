@@ -28,9 +28,58 @@ func part1(ranges []Range, ingredients []int) int {
 	return total
 }
 
-func part2(lines []string) int {
-	return 0
+func part2(ranges []Range) int {
+
+	for i := 0; i < len(ranges); i++ {
+		for j := i + 1; j < len(ranges); j++ {
+			if ranges[i].Start > ranges[j].Start {
+				ranges[i], ranges[j] = ranges[j], ranges[i]
+			}
+		}
+	}
+
+	merged := []Range{ranges[0]}
+	for i := 1; i < len(ranges); i++ {
+		last := &merged[len(merged)-1]
+		current := ranges[i]
+
+		if current.Start <= last.End+1 {
+			// extend last range if necessary
+			if current.End > last.End {
+				last.End = current.End
+			}
+		} else {
+			// unique range
+			merged = append(merged, current)
+		}
+	}
+
+	total := 0
+	for _, rg := range merged {
+		total += rg.End - rg.Start + 1
+	}
+	return total
 }
+
+// BRUTE FORCE appraoch
+// func part2(ranges []Range) int {
+// 	total := 0
+// 	set := make(map[int]bool)
+// 	for _, rg := range ranges {
+// 		// diff := rg.End - rg.Start + 1
+// 		for i := rg.Start; i <= rg.End; i++ {
+// 			set[i] = true
+// 		}
+// 		// total += diff
+// 	}
+// 	for _, v := range set {
+// 		if v == true {
+// 			total += 1
+// 		}
+
+// 	}
+// 	return total
+// }
 
 func main() {
 	lines, err := utils.ReadLines("inputs/day5_input")
@@ -60,5 +109,5 @@ func main() {
 	}
 
 	fmt.Println("Part 1:", part1(ranges, ingredients))
-	fmt.Println("Part 2:", part2(lines))
+	fmt.Println("Part 2:", part2(ranges))
 }
